@@ -101,14 +101,14 @@
     <p class="muted">บัญชีส่วนตัว · ข้อมูลแยกตามผู้ใช้</p>
 
     <div id="loginForm">
-      <label>ชื่อผู้ใช้</label><input class="field" id="loginUser" autocomplete="username" placeholder="username">
+      <label>อีเมล (Gmail)</label><input class="field" id="loginUser" type="email" autocomplete="username" placeholder="example@gmail.com">
       <label>รหัสผ่าน</label><input class="field" id="loginPass" type="password" autocomplete="current-password" placeholder="อย่างน้อย 10 ตัวอักษร">
       <button class="primary" id="loginBtn" style="width:100%" onclick="window.login()">เข้าสู่ระบบ</button>
       <p class="muted" style="text-align:center">ยังไม่มีบัญชี? <a href="#" onclick="window.showRegister();return false">สมัครสมาชิก</a></p>
     </div>
     <div id="registerForm" class="hidden">
       <label>ชื่อที่ใช้แสดง</label><input class="field" id="regName" autocomplete="name" placeholder="ชื่อของคุณ">
-      <label>ชื่อผู้ใช้ (a-z, 0-9, . _ -)</label><input class="field" id="regUser" autocomplete="username" placeholder="อย่างน้อย 4 ตัว">
+      <label>อีเมล (Gmail)</label><input class="field" id="regUser" type="email" autocomplete="username" placeholder="example@gmail.com">
       <label>รหัสผ่าน</label><input class="field" id="regPass" type="password" autocomplete="new-password" placeholder="อย่างน้อย 10 ตัวอักษร">
       <button class="primary" id="regBtn" style="width:100%" onclick="window.register()">สร้างบัญชี</button>
       <p class="muted" style="text-align:center"><a href="#" onclick="window.showLogin();return false">กลับไปเข้าสู่ระบบ</a></p>
@@ -447,11 +447,13 @@
     const btn = document.getElementById('loginBtn');
     btn.disabled = true; btn.textContent = 'กำลังตรวจสอบ...';
     try {
-      const email = document.getElementById('loginUser').value.trim().toLowerCase() + '@myfinance.local';
+      const email = document.getElementById('loginUser').value.trim().toLowerCase();
+      if (!email.endsWith('@gmail.com')) throw new Error('กรุณาใช้อีเมล @gmail.com ในการเข้าสู่ระบบ');
+      
       const pass = document.getElementById('loginPass').value;
       await signInWithEmailAndPassword(auth, email, pass);
     } catch (e) {
-      toast('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+      toast(e.message.includes('gmail.com') ? e.message : 'อีเมลหรือรหัสผ่านไม่ถูกต้อง');
     } finally {
       btn.disabled = false; btn.textContent = 'เข้าสู่ระบบ';
     }
@@ -462,9 +464,11 @@
     btn.disabled = true; btn.textContent = 'กำลังสร้างบัญชี...';
     try {
       const name = document.getElementById('regName').value;
-      const email = document.getElementById('regUser').value.trim().toLowerCase() + '@myfinance.local';
+      const email = document.getElementById('regUser').value.trim().toLowerCase();
       const pass = document.getElementById('regPass').value;
+      
       if (!name) throw new Error('กรุณากรอกชื่อที่ใช้แสดง');
+      if (!email.endsWith('@gmail.com')) throw new Error('ระบบรองรับเฉพาะการสมัครด้วย @gmail.com เท่านั้น');
       if (pass.length < 10) throw new Error('รหัสผ่านต้องมีอย่างน้อย 10 ตัวอักษร');
       
       const cred = await createUserWithEmailAndPassword(auth, email, pass);
@@ -561,7 +565,7 @@
   window.renderHome = function() {
     const s = appData.summary;
     document.getElementById('hello').textContent = 'สวัสดี ' + me.displayName + ' 👋';
-    document.getElementById('usernameLabel').textContent = me.username.replace('@myfinance.local','');
+    document.getElementById('usernameLabel').textContent = me.username;
     
     [['circleIncome',s.income],['circleExpense',s.expense],['circleSaving',s.saving],['circleOptional',s.optional],['circleNet',s.net],['statIncome',s.income],['statExpense',s.expense],['statSaving',s.saving],['statNecessary',s.necessary]].forEach(([id,n])=>document.getElementById(id).textContent=window.money(n));
     

@@ -1,0 +1,21 @@
+{
+  "name": "PaoFin",
+  "short_name": "PaoFin",
+  "description": "จัดการเงินของคุณอย่างสบายใจ",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f6faff",
+  "theme_color": "#f6faff",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

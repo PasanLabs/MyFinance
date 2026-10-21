@@ -300,6 +300,14 @@
           <span>ข้อมูลส่วนตัว</span>
           <button class="danger" style="background:#eef2f6; color:#ef4444; padding:6px 14px; font-weight:700;" onclick="window.logout()">ออกจากระบบ</button>
         </div>
+        <!-- ส่วนติดตั้งแอป (PWA) ซ่อนไว้เป็นค่าเริ่มต้น -->
+      <div class="panel hidden" id="installAppPanel" style="border-color:#10b981;">
+        <div class="section-title" style="color:#10b981;">
+          <span>📱 ติดตั้งแอปพลิเคชัน</span>
+        </div>
+        <div class="muted" style="margin-bottom:12px;">ติดตั้ง PaoFin ลงบนเครื่องเพื่อเข้าใช้งานได้รวดเร็วเหมือนแอปแท้ และใช้งานแบบออฟไลน์ได้</div>
+        <button class="primary" id="installAppBtn" style="width:100%; background:#10b981; color:#fff;">ติดตั้งลงหน้าจอหลัก (Install)</button>
+      </div>
         <label>อีเมล (Gmail)</label><input class="field" id="profileEmail" type="text" disabled>
         <label>ชื่อที่ใช้แสดงหน้าแรก</label><input class="field" id="profileName" type="text" placeholder="ชื่อของคุณ">
         <label>วันเดือนปีเกิด</label><input class="field" id="profileDob" type="date">
@@ -1101,6 +1109,47 @@
     });
   }
 
+  // --- ระบบ PWA และปุ่มติดตั้งแอป ---
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('Service Worker Registered'))
+        .catch(err => console.log('Service Worker Failed', err));
+    });
+  }
+
+  let deferredPrompt;
+  const installAppPanel = document.getElementById('installAppPanel');
+  const installAppBtn = document.getElementById('installAppBtn');
+
+  // ดักจับเมื่อเบราว์เซอร์พร้อมให้ติดตั้ง
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    // แสดงกล่องติดตั้งแอป
+    if (installAppPanel) installAppPanel.classList.remove('hidden');
+  });
+
+  // เมื่อผู้ใช้กดปุ่มติดตั้ง
+  if (installAppBtn) {
+    installAppBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          installAppPanel.classList.add('hidden'); // ซ่อนปุ่มเมื่อกดยอมรับ
+        }
+        deferredPrompt = null;
+      }
+    });
+  }
+
+  // เมื่อติดตั้งเสร็จสมบูรณ์
+  window.addEventListener('appinstalled', () => {
+    if (installAppPanel) installAppPanel.classList.add('hidden');
+    deferredPrompt = null;
+    toast('ติดตั้งแอป PaoFin สำเร็จแล้ว!');
+  });
 </script>
 </body>
 </html>

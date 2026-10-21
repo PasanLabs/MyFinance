@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f4f8ff">
   <title>PaoFin</title>
+  <link rel="icon" type="image/png" href="favicon.png">
   <style>
     :root{--ink:#172b4d;--muted:#71809a;--line:#e4ebf5;--green:#10b981;--red:#ef5350;--purple:#8b5cf6;--amber:#f59e0b;--blue:#2563eb;--bg:#f6faff}
     *{box-sizing:border-box}
@@ -12,8 +13,6 @@
     button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}button:disabled{opacity:0.6;cursor:not-allowed}
     .wrap{max-width:980px;margin:auto}
     .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 2px}
-    .brand{font-size:16px;letter-spacing:1px;color:#2563eb;font-weight:800; text-transform: lowercase;}
-    .brand span{color:#10b981;}
     .hello{font-size:22px;font-weight:800;margin-top:4px}
     .muted{color:var(--muted);font-size:13px}
     .month{border:1px solid var(--line);background:white;border-radius:14px;padding:10px;max-width:160px;color:var(--ink)}
@@ -98,7 +97,8 @@
 <div class="wrap">
   <!-- AUTH SECTION -->
   <div id="auth" class="panel auth">
-    <div class="brand">pao<span>fin</span></div>
+    <!-- โลโก้ในหน้าเข้าสู่ระบบ -->
+    <img src="logo.png" alt="PaoFin" style="height: 120px; margin: 0 auto 30px; display: block;">
     <div class="hello">จัดการเงินของคุณอย่างสบายใจ</div>
     <p class="muted">บัญชีส่วนตัว · ข้อมูลแยกตามผู้ใช้</p>
 
@@ -124,7 +124,8 @@
     <section id="tab-home" class="tab-view">
       <header class="top">
         <div>
-          <div class="brand">pao<span>fin</span></div>
+          <!-- โลโก้แถบด้านบน -->
+          <img src="logo.png" alt="PaoFin" style="height: 22px; margin-bottom: 4px;">
           <div class="hello" id="hello">สวัสดี 👋</div>
           <div class="muted">ภาพรวมการเงินของคุณ</div>
         </div>
@@ -171,7 +172,8 @@
     <section id="tab-transactions" class="tab-view hidden">
       <header class="top">
         <div>
-          <div class="brand">pao<span>fin</span></div>
+          <!-- โลโก้แถบด้านบน -->
+          <img src="logo.png" alt="PaoFin" style="height: 22px; margin-bottom: 4px;">
           <div class="hello">จัดการรายการ</div>
           <div class="muted">เลือกเดือนเพื่อดูหรือแก้ไขย้อนหลัง</div>
         </div>
@@ -203,7 +205,8 @@
     <section id="tab-reports" class="tab-view hidden">
       <header class="top">
         <div>
-          <div class="brand">pao<span>fin</span></div>
+          <!-- โลโก้แถบด้านบน -->
+          <img src="logo.png" alt="PaoFin" style="height: 22px; margin-bottom: 4px;">
           <div class="hello">รายงานประจำเดือน</div>
           <div class="muted">ตรวจสอบรายละเอียดก่อนส่งออกไฟล์</div>
         </div>
@@ -251,7 +254,8 @@
     <section id="tab-settings" class="tab-view hidden">
       <header class="top">
         <div>
-          <div class="brand">SETTINGS</div>
+          <!-- โลโก้แถบด้านบน -->
+          <img src="logo.png" alt="PaoFin" style="height: 22px; margin-bottom: 4px;">
           <div class="hello">ตั้งค่าระบบ</div>
           <div class="muted">ปรับแต่งบัญชี จัดการรหัสผ่าน และหมวดหมู่</div>
         </div>

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <link rel="icon" type="image/png" href="favicon.png">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f4f8ff">
-  <title>MyFinance</title>
+  <title>PaoFin</title>
   <style>
     :root{--ink:#172b4d;--muted:#71809a;--line:#e4ebf5;--green:#10b981;--red:#ef5350;--purple:#8b5cf6;--amber:#f59e0b;--blue:#2563eb;--bg:#f6faff}
     *{box-sizing:border-box}
@@ -13,7 +12,8 @@
     button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}button:disabled{opacity:0.6;cursor:not-allowed}
     .wrap{max-width:980px;margin:auto}
     .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 2px}
-    .brand{font-size:12px;letter-spacing:2px;color:#6480a8;font-weight:800}
+    .brand{font-size:16px;letter-spacing:1px;color:#2563eb;font-weight:800; text-transform: lowercase;}
+    .brand span{color:#10b981;}
     .hello{font-size:22px;font-weight:800;margin-top:4px}
     .muted{color:var(--muted);font-size:13px}
     .month{border:1px solid var(--line);background:white;border-radius:14px;padding:10px;max-width:160px;color:var(--ink)}
@@ -61,6 +61,7 @@
     .modal.show{display:flex}
     .dialog{background:white;border-radius:22px 22px 16px 16px;padding:20px;width:100%;max-width:560px;max-height:90dvh;overflow:auto}
     .field{display:block;width:100%;padding:12px;border:1px solid #dce5f1;border-radius:12px;background:#fff;margin:6px 0 12px;color:var(--ink)}
+    .field:disabled {background: #f8fafc; color: #94a3b8;}
     label{font-size:13px;font-weight:700}
     .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .actions{display:flex;gap:8px;margin-top:14px}
@@ -97,12 +98,13 @@
 <div class="wrap">
   <!-- AUTH SECTION -->
   <div id="auth" class="panel auth">
-    <img src="logo.png" alt="PaoFin" style="height: 120px; margin: 0 auto 30px; display: block;">
+    <div class="brand">pao<span>fin</span></div>
     <div class="hello">จัดการเงินของคุณอย่างสบายใจ</div>
+    <p class="muted">บัญชีส่วนตัว · ข้อมูลแยกตามผู้ใช้</p>
 
     <div id="loginForm">
       <label>อีเมล (Gmail)</label><input class="field" id="loginUser" type="email" autocomplete="username" placeholder="example@gmail.com">
-      <label>รหัสผ่าน</label><input class="field" id="loginPass" type="password" autocomplete="current-password" placeholder=" ">
+      <label>รหัสผ่าน</label><input class="field" id="loginPass" type="password" autocomplete="current-password" placeholder="อย่างน้อย 10 ตัวอักษร">
       <button class="primary" id="loginBtn" style="width:100%" onclick="window.login()">เข้าสู่ระบบ</button>
       <p class="muted" style="text-align:center">ยังไม่มีบัญชี? <a href="#" onclick="window.showRegister();return false">สมัครสมาชิก</a></p>
     </div>
@@ -122,7 +124,7 @@
     <section id="tab-home" class="tab-view">
       <header class="top">
         <div>
-          <img src="logo.png" alt="PaoFin" style="height: 22px; margin-bottom: 4px;">
+          <div class="brand">pao<span>fin</span></div>
           <div class="hello" id="hello">สวัสดี 👋</div>
           <div class="muted">ภาพรวมการเงินของคุณ</div>
         </div>
@@ -169,7 +171,7 @@
     <section id="tab-transactions" class="tab-view hidden">
       <header class="top">
         <div>
-          <div class="brand">TRANSACTIONS</div>
+          <div class="brand">pao<span>fin</span></div>
           <div class="hello">จัดการรายการ</div>
           <div class="muted">เลือกเดือนเพื่อดูหรือแก้ไขย้อนหลัง</div>
         </div>
@@ -201,7 +203,7 @@
     <section id="tab-reports" class="tab-view hidden">
       <header class="top">
         <div>
-          <div class="brand">MONTHLY REPORT</div>
+          <div class="brand">pao<span>fin</span></div>
           <div class="hello">รายงานประจำเดือน</div>
           <div class="muted">ตรวจสอบรายละเอียดก่อนส่งออกไฟล์</div>
         </div>
@@ -251,15 +253,48 @@
         <div>
           <div class="brand">SETTINGS</div>
           <div class="hello">ตั้งค่าระบบ</div>
-          <div class="muted">ปรับแต่งหมวดหมู่และจัดการบัญชี</div>
+          <div class="muted">ปรับแต่งบัญชี จัดการรหัสผ่าน และหมวดหมู่</div>
         </div>
       </header>
 
+      <!-- ส่วนจัดการบัญชีและข้อมูลส่วนตัว -->
       <div class="panel">
-        <div class="section-title">บัญชีของฉัน <button class="secondary" onclick="window.logout()">ออกจากระบบ</button></div>
-        <div class="muted">เข้าสู่ระบบในอีเมล <strong id="usernameLabel"></strong></div>
+        <div class="section-title">
+          <span>ข้อมูลส่วนตัว</span>
+          <button class="danger" style="background:#eef2f6; color:#ef4444; padding:6px 14px; font-weight:700;" onclick="window.logout()">ออกจากระบบ</button>
+        </div>
+        
+        <label>อีเมล (Gmail)</label>
+        <input class="field" id="profileEmail" type="text" disabled>
+        
+        <label>ชื่อที่ใช้แสดงหน้าแรก</label>
+        <input class="field" id="profileName" type="text" placeholder="ชื่อของคุณ">
+        
+        <label>วันเดือนปีเกิด</label>
+        <input class="field" id="profileDob" type="date">
+        
+        <button class="primary" id="saveProfileBtn" style="width:100%; margin-top:8px;" onclick="window.saveProfile()">บันทึกข้อมูลส่วนตัว</button>
       </div>
 
+      <!-- ส่วนเปลี่ยนรหัสผ่าน -->
+      <div class="panel">
+        <div class="section-title">จัดการรหัสผ่าน</div>
+        <div class="muted" style="margin-bottom:12px; font-size:12px;">เพื่อความปลอดภัย โปรดตั้งรหัสผ่านใหม่ที่คาดเดายาก (อย่างน้อย 10 ตัวอักษร)</div>
+        
+        <label>รหัสผ่านใหม่</label>
+        <input class="field" id="newPassword" type="password" placeholder="รหัสผ่านใหม่">
+        
+        <label>ยืนยันรหัสผ่านใหม่</label>
+        <input class="field" id="confirmPassword" type="password" placeholder="พิมพ์รหัสผ่านใหม่อีกครั้ง">
+        
+        <label style="display:flex; align-items:center; gap:8px; margin: 4px 0 14px; font-weight:normal; font-size:13px;">
+          <input type="checkbox" onchange="window.togglePassword(this)"> แสดงตัวอักษรรหัสผ่าน
+        </label>
+        
+        <button class="secondary" id="changePwdBtn" style="width:100%" onclick="window.changePassword()">เปลี่ยนรหัสผ่าน</button>
+      </div>
+
+      <!-- ส่วนหมวดหมู่ (คงเดิม) -->
       <div class="panel">
         <div class="section-title">
           <span>หมวดหมู่ของคุณ</span>
@@ -349,8 +384,8 @@
 <script type="module">
   // นำเข้า Firebase SDK V10 Modular
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-  import { getFirestore, collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, updatePassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+  import { getFirestore, collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
   // โค้ดคอนฟิกจากโปรเจกต์ Firebase ของคุณ
   const firebaseConfig = {
@@ -378,7 +413,7 @@
   // Privacy Mode
   let isHideMoney = localStorage.getItem('myfinance_hide_money') === 'true';
 
-  // ข้อมูลหมวดหมู่เริ่มต้น (กรณี User ใหม่ยังไม่มีหมวดหมู่)
+  // ข้อมูลหมวดหมู่เริ่มต้น
   const DEFAULT_CATEGORIES = [
     {categoryId: 'd1', userId: '*', name: 'เงินเดือน', type: 'income', color: '#16a34a', isDefault: true},
     {categoryId: 'd2', userId: '*', name: 'รายได้เสริม', type: 'income', color: '#16a34a', isDefault: true},
@@ -429,7 +464,7 @@
   // --- Auth State Listener ---
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-      me = { userId: user.uid, displayName: user.displayName || user.email.split('@')[0], username: user.email };
+      me = { userId: user.uid, displayName: user.displayName || user.email.split('@')[0], username: user.email, dob: '' };
       await window.showApp();
     } else {
       me = null;
@@ -473,6 +508,9 @@
       
       const cred = await createUserWithEmailAndPassword(auth, email, pass);
       await updateProfile(cred.user, { displayName: name });
+      
+      // บันทึกโปรไฟล์เบื้องต้นลง Firestore
+      await setDoc(doc(db, "users", cred.user.uid), { displayName: name, dob: '' }, { merge: true });
     } catch (e) {
       toast('เกิดข้อผิดพลาด: ' + e.message.replace('Firebase:', ''));
     } finally {
@@ -513,6 +551,12 @@
     try {
       const month = document.getElementById('homeMonth').value || localISODate().slice(0, 7);
       
+      // ดึงข้อมูลวันเกิด (DOB) จาก Firestore
+      const userSnap = await getDoc(doc(db, "users", me.userId));
+      if (userSnap.exists() && userSnap.data().dob) {
+        me.dob = userSnap.data().dob;
+      }
+      
       // Load Categories (User's specific categories)
       const catRef = collection(db, "categories");
       const qCat = query(catRef, where("userId", "==", me.userId));
@@ -542,7 +586,10 @@
       window.renderHome();
       if (window.currentTab === 'transactions') window.renderTxList();
       if (window.currentTab === 'reports') window.renderReports();
-      if (window.currentTab === 'settings') window.renderCategoriesList();
+      if (window.currentTab === 'settings') {
+        window.renderCategoriesList();
+        window.populateProfileSettings();
+      }
     } catch (e) {
       console.error(e);
       toast('โหลดข้อมูลไม่สำเร็จ: ' + e.message);
@@ -558,14 +605,16 @@
     });
     if (tab === 'transactions') window.renderTxList();
     if (tab === 'reports') window.renderReports();
-    if (tab === 'settings') window.renderCategoriesList();
+    if (tab === 'settings') {
+      window.renderCategoriesList();
+      window.populateProfileSettings();
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   window.renderHome = function() {
     const s = appData.summary;
     document.getElementById('hello').textContent = 'สวัสดี ' + me.displayName + ' 👋';
-    document.getElementById('usernameLabel').textContent = me.username;
     
     [['circleIncome',s.income],['circleExpense',s.expense],['circleSaving',s.saving],['circleOptional',s.optional],['circleNet',s.net],['statIncome',s.income],['statExpense',s.expense],['statSaving',s.saving],['statNecessary',s.necessary]].forEach(([id,n])=>document.getElementById(id).textContent=window.money(n));
     
@@ -589,6 +638,7 @@
     return `<div class="tx"><div class="tx-icon">${icon}</div><div class="tx-main"><div class="tx-title">${esc(t.title)} ${t.marked?'<span class="marked">★</span>':''}</div><div class="tx-meta">${esc(t.date)} · ${esc(t.category)}</div>${t.note?`<div class="tx-meta">${esc(t.note)}</div>`:''}</div><div style="text-align:right"><div class="tx-amount ${color}">${t.type==='income'?'+':'−'}${window.money(t.amount)}</div><button class="secondary" style="padding:4px 8px;margin-top:5px;font-size:11px" onclick="window.editTx('${t.transactionId}')">แก้ไข</button></div></div>`;
   }
 
+  // --- Transactions Logic ---
   window.setTxFilter = function(type, el) {
     window.currentTxFilter = type;
     el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
@@ -609,7 +659,6 @@
     document.getElementById('fullTransactionsList').innerHTML = list.length ? list.map(t => txCardHtml(t)).join('') : '<div class="empty">ไม่พบรายการที่ตรงกับเงื่อนไข</div>';
   };
 
-  // --- Transactions Logic ---
   window.updateCategoryOptions = function(selected) {
     const type = document.getElementById('txType').value;
     const list = categories.filter(c => c.type === type);
@@ -701,6 +750,70 @@
       toast(e.message);
     } finally {
       btn.disabled = false;
+    }
+  };
+
+  // --- Profile & Password Management ---
+  window.populateProfileSettings = function() {
+    document.getElementById('profileEmail').value = me.username;
+    document.getElementById('profileName').value = me.displayName;
+    document.getElementById('profileDob').value = me.dob;
+  };
+
+  window.saveProfile = async function() {
+    const btn = document.getElementById('saveProfileBtn');
+    btn.disabled = true; btn.textContent = 'กำลังบันทึก...';
+    try {
+      const newName = document.getElementById('profileName').value.trim();
+      const newDob = document.getElementById('profileDob').value;
+      if (!newName) throw new Error('กรุณากรอกชื่อที่ใช้แสดงหน้าแรก');
+      
+      // 1. อัปเดตใน Auth
+      await updateProfile(auth.currentUser, { displayName: newName });
+      
+      // 2. อัปเดตใน Firestore (สำหรับเก็บวันเกิด)
+      await setDoc(doc(db, "users", me.userId), { displayName: newName, dob: newDob }, { merge: true });
+      
+      me.displayName = newName;
+      me.dob = newDob;
+      window.renderHome();
+      toast('บันทึกข้อมูลส่วนตัวเรียบร้อยแล้ว');
+    } catch (e) {
+      toast(e.message);
+    } finally {
+      btn.disabled = false; btn.textContent = 'บันทึกข้อมูลส่วนตัว';
+    }
+  };
+
+  window.togglePassword = function(cb) {
+    const type = cb.checked ? 'text' : 'password';
+    document.getElementById('newPassword').type = type;
+    document.getElementById('confirmPassword').type = type;
+  };
+
+  window.changePassword = async function() {
+    const btn = document.getElementById('changePwdBtn');
+    btn.disabled = true; btn.textContent = 'กำลังเปลี่ยน...';
+    try {
+      const p1 = document.getElementById('newPassword').value;
+      const p2 = document.getElementById('confirmPassword').value;
+      
+      if (p1.length < 10) throw new Error('รหัสผ่านต้องมีอย่างน้อย 10 ตัวอักษร');
+      if (p1 !== p2) throw new Error('รหัสผ่านยืนยันไม่ตรงกัน โปรดพิมพ์ให้เหมือนกันทั้งสองช่อง');
+      
+      await updatePassword(auth.currentUser, p1);
+      toast('เปลี่ยนรหัสผ่านสำเร็จ');
+      
+      document.getElementById('newPassword').value = '';
+      document.getElementById('confirmPassword').value = '';
+    } catch (e) {
+      if (e.code === 'auth/requires-recent-login') {
+        toast('โปรดออกจากระบบและเข้าสู่ระบบใหม่อีกครั้ง เพื่อเปลี่ยนรหัสผ่าน');
+      } else {
+        toast(e.message.replace('Firebase:', ''));
+      }
+    } finally {
+      btn.disabled = false; btn.textContent = 'เปลี่ยนรหัสผ่าน';
     }
   };
 
@@ -817,7 +930,7 @@
     const content = document.getElementById('reportContentToPrint').innerHTML;
     const printWindow = window.open('', '_blank');
     printWindow.document.write(`
-      <html><head><title>MyFinance Report</title>
+      <html><head><title>PaoFin Report</title>
       <style>
         body { font-family: Arial, sans-serif; color: #172b4d; padding: 20px; }
         .stats { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }

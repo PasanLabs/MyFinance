@@ -6,6 +6,8 @@
   <meta name="theme-color" content="#f4f8ff">
   <title>PaoFin</title>
   <link rel="icon" type="image/png" href="favicon.png">
+  <!-- นำเข้า Chart.js สำหรับสร้างกราฟ -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root{--ink:#172b4d;--muted:#71809a;--line:#e4ebf5;--green:#10b981;--red:#ef5350;--purple:#8b5cf6;--amber:#f59e0b;--blue:#2563eb;--bg:#f6faff}
     *{box-sizing:border-box}
@@ -22,7 +24,6 @@
     .ptr-icon.spin{animation:ptrSpin 0.7s linear infinite}
     @keyframes ptrSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
-    /* CSS สำหรับหน้า Login แบบ 2 ฝั่ง */
     .auth-wrapper { display: flex; flex-wrap: wrap; gap: 40px; max-width: 900px; margin: 6vh auto; align-items: center; justify-content: center; }
     .auth-info { flex: 1; min-width: 320px; padding: 20px 10px; }
     .auth-panel { flex: 1; min-width: 320px; max-width: 440px; margin: 0; }
@@ -103,57 +104,23 @@
 </div>
 
 <div class="wrap">
-  <!-- AUTH SECTION (แบ่ง 2 ฝั่ง) -->
+  <!-- AUTH SECTION -->
   <div id="auth" class="auth-wrapper">
-    
-    <!-- ฝั่งซ้าย: ข้อมูลความปลอดภัย -->
     <div class="auth-info">
       <h1 style="font-size:28px; font-weight:800; margin:0 0 8px 0;">มั่นใจทุกการใช้งาน</h1>
       <p style="color:var(--muted); font-size:15px; margin-bottom: 30px;">ข้อมูลส่วนตัวและการเงินของคุณ ปลอดภัยสูงสุดบนระบบของเรา</p>
-      
-      <div class="sec-item">
-        <div class="sec-icon">🔒</div>
-        <div class="sec-text">
-          <h3>ความปลอดภัยระดับสากล</h3>
-          <p>จัดเก็บด้วยเทคโนโลยีฐานข้อมูล Cloud จาก Google พร้อมการเข้ารหัสข้อมูล (Encryption) มาตรฐานสูงสุด</p>
-        </div>
-      </div>
-      
-      <div class="sec-item">
-        <div class="sec-icon">🛡️</div>
-        <div class="sec-text">
-          <h3>ความเป็นส่วนตัว 100%</h3>
-          <p>ระบบแยกฐานข้อมูลรายบุคคลอย่างเด็ดขาด (Row Level Security) ข้อมูลเป็นความลับของคุณเพียงคนเดียว</p>
-        </div>
-      </div>
-      
-      <div class="sec-item">
-        <div class="sec-icon">☁️</div>
-        <div class="sec-text">
-          <h3>ข้อมูลปลอดภัย ไม่สูญหาย</h3>
-          <p>ซิงค์ข้อมูลแบบเรียลไทม์ ป้องกันข้อมูลหายแม้เปลี่ยนอุปกรณ์ และเข้าใช้งานต่อเนื่องได้จากทุกที่</p>
-        </div>
-      </div>
-      
-      <div class="sec-item">
-        <div class="sec-icon">🙈</div>
-        <div class="sec-text">
-          <h3>โหมดซ่อนตัวเลขส่วนตัว</h3>
-          <p>เพิ่มความสบายใจเมื่อใช้งานในที่สาธารณะ ด้วยปุ่มซ่อนตัวเลขยอดเงิน ป้องกันการถูกแอบมอง</p>
-        </div>
-      </div>
+      <div class="sec-item"><div class="sec-icon">🔒</div><div class="sec-text"><h3>ความปลอดภัยระดับสากล</h3><p>จัดเก็บด้วยเทคโนโลยี Cloud จาก Google พร้อมการเข้ารหัสข้อมูล (Encryption) มาตรฐานสูงสุด</p></div></div>
+      <div class="sec-item"><div class="sec-icon">🛡️</div><div class="sec-text"><h3>ความเป็นส่วนตัว 100%</h3><p>ระบบแยกฐานข้อมูลรายบุคคลอย่างเด็ดขาด (Row Level Security) ข้อมูลเป็นความลับของคุณเพียงคนเดียว</p></div></div>
+      <div class="sec-item"><div class="sec-icon">☁️</div><div class="sec-text"><h3>ข้อมูลปลอดภัย ไม่สูญหาย</h3><p>ซิงค์ข้อมูลแบบเรียลไทม์ ป้องกันข้อมูลหายแม้เปลี่ยนอุปกรณ์ และเข้าใช้งานต่อเนื่องได้จากทุกที่</p></div></div>
+      <div class="sec-item"><div class="sec-icon">🙈</div><div class="sec-text"><h3>โหมดซ่อนตัวเลขส่วนตัว</h3><p>เพิ่มความสบายใจเมื่อใช้งานในที่สาธารณะ ด้วยปุ่มซ่อนตัวเลขยอดเงิน ป้องกันการถูกแอบมอง</p></div></div>
     </div>
-
-    <!-- ฝั่งขวา: ฟอร์มเข้าสู่ระบบ -->
     <div class="panel auth-panel">
-      <!-- โลโก้ในหน้าเข้าสู่ระบบ -->
       <img src="logo.png" alt="PaoFin" style="height: 120px; margin: 0 auto 10px; display: block;">
       <div class="hello" style="text-align:center;">เข้าสู่ระบบ</div>
       <p class="muted" style="text-align:center; margin-bottom: 24px;">จัดการเงินของคุณอย่างสบายใจ</p>
-  
       <div id="loginForm">
-        <label>อีเมล (Gmail)</label><input class="field" id="loginUser" type="email" autocomplete="username" placeholder=" ">
-        <label>รหัสผ่าน</label><input class="field" id="loginPass" type="password" autocomplete="current-password" placeholder=" ">
+        <label>อีเมล (Gmail)</label><input class="field" id="loginUser" type="email" autocomplete="username" placeholder="example@gmail.com">
+        <label>รหัสผ่าน</label><input class="field" id="loginPass" type="password" autocomplete="current-password" placeholder="อย่างน้อย 10 ตัวอักษร">
         <button class="primary" id="loginBtn" style="width:100%" onclick="window.login()">เข้าสู่ระบบ</button>
         <p class="muted" style="text-align:center">ยังไม่มีบัญชี? <a href="#" onclick="window.showRegister();return false">สมัครสมาชิก</a></p>
       </div>
@@ -169,12 +136,10 @@
 
   <!-- MAIN APP SPA -->
   <main id="app" class="hidden">
-
     <!-- 1. หน้าหลัก (HOME) -->
     <section id="tab-home" class="tab-view">
       <header class="top">
         <div>
-          <!-- โลโก้แถบด้านบน -->
           <img src="logo.png" alt="PaoFin" style="height: 35px; margin-bottom: 7px;">
           <div class="hello" id="hello">สวัสดี 👋</div>
           <div class="muted">ภาพรวมการเงินของคุณ</div>
@@ -264,7 +229,10 @@
       <div class="panel">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <span style="font-weight:700;font-size:15px">ตัวอย่างเอกสารรายงาน</span>
-          <button class="primary" id="exportBtn" onclick="window.exportPdf()" style="padding:8px 14px;font-size:13px">📥 พิมพ์ / บันทึก PDF</button>
+          <div style="display:flex; gap:6px;">
+            <button class="secondary" id="exportCsvBtn" onclick="window.exportCsv()" style="padding:8px 12px;font-size:13px">📊 Excel</button>
+            <button class="primary" id="exportBtn" onclick="window.exportPdf()" style="padding:8px 12px;font-size:13px">📥 PDF</button>
+          </div>
         </div>
 
         <div class="report-sheet" id="reportContentToPrint">
@@ -284,6 +252,11 @@
             <div class="stat"><div class="muted">รายจ่าย</div><div class="num red" id="repExpense">฿0</div></div>
             <div class="stat"><div class="muted">เงินออม</div><div class="num purple" id="repSaving">฿0</div></div>
             <div class="stat"><div class="muted">รายจ่ายจำเป็น</div><div class="num orange" id="repNecessary">฿0</div></div>
+          </div>
+
+          <!-- พื้นที่แสดงกราฟโดนัท (Chart.js) -->
+          <div style="max-width:280px; margin:20px auto;">
+            <canvas id="expenseChart"></canvas>
           </div>
 
           <table class="report-table">
@@ -307,7 +280,6 @@
           <div class="muted">ปรับแต่งบัญชี จัดการรหัสผ่าน และหมวดหมู่</div>
         </div>
       </header>
-
       <div class="panel">
         <div class="section-title">
           <span>ข้อมูลส่วนตัว</span>
@@ -318,7 +290,6 @@
         <label>วันเดือนปีเกิด</label><input class="field" id="profileDob" type="date">
         <button class="primary" id="saveProfileBtn" style="width:100%; margin-top:8px;" onclick="window.saveProfile()">บันทึกข้อมูลส่วนตัว</button>
       </div>
-
       <div class="panel">
         <div class="section-title">จัดการรหัสผ่าน</div>
         <div class="muted" style="margin-bottom:12px; font-size:12px;">เพื่อความปลอดภัย โปรดตั้งรหัสผ่านใหม่ที่คาดเดายาก (อย่างน้อย 10 ตัวอักษร)</div>
@@ -329,14 +300,12 @@
         </label>
         <button class="secondary" id="changePwdBtn" style="width:100%" onclick="window.changePassword()">เปลี่ยนรหัสผ่าน</button>
       </div>
-
       <div class="panel">
         <div class="section-title">
           <span>หมวดหมู่ของคุณ</span>
           <button class="primary" onclick="window.openCategoryEditor()" style="padding:8px 12px;font-size:12px">＋ เพิ่มหมวดหมู่</button>
         </div>
         <div class="muted" style="margin-bottom:12px">คุณสามารถ เพิ่ม, แก้ไข หรือ ลบ หมวดหมู่ของตัวเองได้อย่างอิสระ</div>
-
         <div class="filter-chips">
           <button class="chip active" onclick="window.setCatFilter('all', this)">ทั้งหมด</button>
           <button class="chip" onclick="window.setCatFilter('income', this)">รายรับ</button>
@@ -422,13 +391,11 @@
 <div id="toast" class="toast hidden"></div>
 
 <script type="module">
-  // นำเข้า Firebase SDK V10 Modular (เพิ่ม Storage)
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, updatePassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
   import { getFirestore, collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
   import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
 
-  // โค้ดคอนฟิกจากโปรเจกต์ Firebase ของคุณ
   const firebaseConfig = {
     apiKey: "AIzaSyCN8SZb_QDJ_09fEy_-SaKC1RaacRofGz8",
     authDomain: "myfinance-5904b.firebaseapp.com",
@@ -444,18 +411,16 @@
   const db = getFirestore(app);
   const storage = getStorage(app);
 
-  // ตัวแปร Global ของแอป
   let me = null;
   let appData = { transactions: [], summary: {} };
   let categories = [];
+  let myExpenseChart = null; // ตัวแปรเก็บ Instance ของ Chart
+  
   window.currentTab = 'home';
   window.currentTxFilter = 'all';
   window.currentCatFilter = 'all';
-  
-  // Privacy Mode
   let isHideMoney = localStorage.getItem('myfinance_hide_money') === 'true';
 
-  // ข้อมูลหมวดหมู่เริ่มต้น
   const DEFAULT_CATEGORIES = [
     {categoryId: 'd1', userId: '*', name: 'เงินเดือน', type: 'income', color: '#16a34a', isDefault: true},
     {categoryId: 'd2', userId: '*', name: 'รายได้เสริม', type: 'income', color: '#16a34a', isDefault: true},
@@ -474,7 +439,6 @@
     {categoryId: 'd15', userId: '*', name: 'เงินสำรองฉุกเฉิน', type: 'saving', color: '#8b5cf6', isDefault: true}
   ];
 
-  // Helper Functions
   function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.remove('hidden');setTimeout(()=>el.classList.add('hidden'),3500)}
   function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
   
@@ -503,7 +467,6 @@
     return new Date(d.getTime() - offset).toISOString().slice(0, 10);
   }
 
-  // --- Auth State Listener ---
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       me = { userId: user.uid, displayName: user.displayName || user.email.split('@')[0], username: user.email, dob: '' };
@@ -516,7 +479,6 @@
     }
   });
 
-  // --- Auth Functions ---
   window.showRegister = () => { document.getElementById('loginForm').classList.add('hidden'); document.getElementById('registerForm').classList.remove('hidden'); }
   window.showLogin = () => { document.getElementById('registerForm').classList.add('hidden'); document.getElementById('loginForm').classList.remove('hidden'); }
 
@@ -526,7 +488,6 @@
     try {
       const email = document.getElementById('loginUser').value.trim().toLowerCase();
       if (!email.endsWith('@gmail.com')) throw new Error('กรุณาใช้อีเมล @gmail.com ในการเข้าสู่ระบบ');
-      
       const pass = document.getElementById('loginPass').value;
       await signInWithEmailAndPassword(auth, email, pass);
     } catch (e) {
@@ -543,15 +504,12 @@
       const name = document.getElementById('regName').value;
       const email = document.getElementById('regUser').value.trim().toLowerCase();
       const pass = document.getElementById('regPass').value;
-      
       if (!name) throw new Error('กรุณากรอกชื่อที่ใช้แสดง');
       if (!email.endsWith('@gmail.com')) throw new Error('ระบบรองรับเฉพาะการสมัครด้วย @gmail.com เท่านั้น');
       if (pass.length < 10) throw new Error('รหัสผ่านต้องมีอย่างน้อย 10 ตัวอักษร');
       
       const cred = await createUserWithEmailAndPassword(auth, email, pass);
       await updateProfile(cred.user, { displayName: name });
-      
-      // บันทึกโปรไฟล์เบื้องต้นลง Firestore
       await setDoc(doc(db, "users", cred.user.uid), { displayName: name, dob: '' }, { merge: true });
     } catch (e) {
       toast('เกิดข้อผิดพลาด: ' + e.message.replace('Firebase:', ''));
@@ -560,18 +518,13 @@
     }
   };
 
-  window.logout = async function() {
-    await signOut(auth);
-    toast('ออกจากระบบแล้ว');
-  };
+  window.logout = async function() { await signOut(auth); toast('ออกจากระบบแล้ว'); };
 
-  // --- App Initialization & Data Loading ---
   window.showApp = async function() {
     document.getElementById('auth').classList.add('hidden');
     document.getElementById('app').classList.remove('hidden');
     document.getElementById('bottomNav').classList.remove('hidden');
     updateEyeIcon();
-    
     if(!document.getElementById('homeMonth').value) {
       const nowM = localISODate().slice(0, 7);
       document.getElementById('homeMonth').value = nowM;
@@ -592,27 +545,20 @@
     if (!me) return;
     try {
       const month = document.getElementById('homeMonth').value || localISODate().slice(0, 7);
-      
-      // ดึงข้อมูลวันเกิด (DOB) จาก Firestore
       const userSnap = await getDoc(doc(db, "users", me.userId));
-      if (userSnap.exists() && userSnap.data().dob) {
-        me.dob = userSnap.data().dob;
-      }
+      if (userSnap.exists() && userSnap.data().dob) me.dob = userSnap.data().dob;
       
-      // Load Categories (User's specific categories)
       const catRef = collection(db, "categories");
       const qCat = query(catRef, where("userId", "==", me.userId));
       const catSnap = await getDocs(qCat);
       const userCats = catSnap.docs.map(d => ({categoryId: d.id, isDefault: false, ...d.data()}));
       categories = [...DEFAULT_CATEGORIES, ...userCats];
 
-      // Load Transactions for User
       const txRef = collection(db, "transactions");
       const qTx = query(txRef, where("userId", "==", me.userId));
       const txSnap = await getDocs(qTx);
       let allTx = txSnap.docs.map(d => ({transactionId: d.id, ...d.data()}));
       
-      // Filter by Month locally
       appData.transactions = allTx.filter(t => String(t.date).startsWith(month));
       
       const income = appData.transactions.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
@@ -634,11 +580,10 @@
       }
     } catch (e) {
       console.error(e);
-      toast('โหลดข้อมูลไม่สำเร็จ: ' + e.message);
+      toast('โหลดข้อมูลไม่สำเร็จ');
     }
   };
 
-  // --- Rendering UI ---
   window.switchTab = function(tab) {
     window.currentTab = tab;
     ['home','transactions','reports','settings'].forEach(t => {
@@ -681,7 +626,6 @@
     return `<div class="tx"><div class="tx-icon">${icon}</div><div class="tx-main"><div class="tx-title">${esc(t.title)} ${t.marked?'<span class="marked">★</span>':''}${attachment}</div><div class="tx-meta">${esc(t.date)} · ${esc(t.category)}</div>${t.note?`<div class="tx-meta">${esc(t.note)}</div>`:''}</div><div style="text-align:right"><div class="tx-amount ${color}">${t.type==='income'?'+':'−'}${window.money(t.amount)}</div><button class="secondary" style="padding:4px 8px;margin-top:5px;font-size:11px" onclick="window.editTx('${t.transactionId}')">แก้ไข</button></div></div>`;
   }
 
-  // --- Transactions Logic ---
   window.setTxFilter = function(type, el) {
     window.currentTxFilter = type;
     el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
@@ -741,12 +685,10 @@
     document.getElementById('txNote').value = t.note;
     document.getElementById('txMarked').checked = t.marked;
     document.getElementById('txReceiptUrl').value = t.receiptUrl || '';
-    
     if (t.receiptUrl) {
       document.getElementById('receiptLinkArea').classList.remove('hidden');
       document.getElementById('receiptCurrentLink').href = t.receiptUrl;
     }
-
     window.updateCategoryOptions(t.category);
     document.getElementById('deleteBtn').classList.remove('hidden');
   };
@@ -763,7 +705,6 @@
       const amount = Number(document.getElementById('txAmount').value);
       if (!title || amount <= 0) throw new Error("กรุณากรอกชื่อรายการและจำนวนเงินที่ถูกต้อง");
 
-      // ตรวจสอบและอัปโหลดไฟล์รูปภาพเข้า Firebase Storage
       const receiptFile = document.getElementById('txReceipt').files[0];
       if (receiptFile) {
         if (receiptFile.size > 4 * 1024 * 1024) throw new Error("ไฟล์รูปภาพต้องมีขนาดไม่เกิน 4 MB");
@@ -798,11 +739,7 @@
       if (inputDate.slice(0, 7)) window.syncMonth(inputDate.slice(0, 7));
       toast('บันทึกรายการเรียบร้อย');
       await window.loadData();
-    } catch(e) {
-      toast(e.message);
-    } finally {
-      btn.disabled = false; btn.textContent = 'บันทึกรายการ';
-    }
+    } catch(e) { toast(e.message); } finally { btn.disabled = false; btn.textContent = 'บันทึกรายการ'; }
   };
 
   window.deleteTx = async function() {
@@ -815,14 +752,9 @@
       window.closeEditor();
       toast('ลบรายการสำเร็จ');
       await window.loadData();
-    } catch(e) {
-      toast(e.message);
-    } finally {
-      btn.disabled = false;
-    }
+    } catch(e) { toast(e.message); } finally { btn.disabled = false; }
   };
 
-  // --- Profile & Password Management ---
   window.populateProfileSettings = function() {
     document.getElementById('profileEmail').value = me.username;
     document.getElementById('profileName').value = me.displayName;
@@ -837,21 +769,14 @@
       const newDob = document.getElementById('profileDob').value;
       if (!newName) throw new Error('กรุณากรอกชื่อที่ใช้แสดงหน้าแรก');
       
-      // 1. อัปเดตใน Auth
       await updateProfile(auth.currentUser, { displayName: newName });
-      
-      // 2. อัปเดตใน Firestore (สำหรับเก็บวันเกิด)
       await setDoc(doc(db, "users", me.userId), { displayName: newName, dob: newDob }, { merge: true });
       
       me.displayName = newName;
       me.dob = newDob;
       window.renderHome();
       toast('บันทึกข้อมูลส่วนตัวเรียบร้อยแล้ว');
-    } catch (e) {
-      toast(e.message);
-    } finally {
-      btn.disabled = false; btn.textContent = 'บันทึกข้อมูลส่วนตัว';
-    }
+    } catch (e) { toast(e.message); } finally { btn.disabled = false; btn.textContent = 'บันทึกข้อมูลส่วนตัว'; }
   };
 
   window.togglePassword = function(cb) {
@@ -866,27 +791,18 @@
     try {
       const p1 = document.getElementById('newPassword').value;
       const p2 = document.getElementById('confirmPassword').value;
-      
       if (p1.length < 10) throw new Error('รหัสผ่านต้องมีอย่างน้อย 10 ตัวอักษร');
       if (p1 !== p2) throw new Error('รหัสผ่านยืนยันไม่ตรงกัน โปรดพิมพ์ให้เหมือนกันทั้งสองช่อง');
-      
       await updatePassword(auth.currentUser, p1);
       toast('เปลี่ยนรหัสผ่านสำเร็จ');
-      
       document.getElementById('newPassword').value = '';
       document.getElementById('confirmPassword').value = '';
     } catch (e) {
-      if (e.code === 'auth/requires-recent-login') {
-        toast('โปรดออกจากระบบและเข้าสู่ระบบใหม่อีกครั้ง เพื่อเปลี่ยนรหัสผ่าน');
-      } else {
-        toast(e.message.replace('Firebase:', ''));
-      }
-    } finally {
-      btn.disabled = false; btn.textContent = 'เปลี่ยนรหัสผ่าน';
-    }
+      if (e.code === 'auth/requires-recent-login') toast('โปรดออกจากระบบและเข้าสู่ระบบใหม่อีกครั้ง เพื่อเปลี่ยนรหัสผ่าน');
+      else toast(e.message.replace('Firebase:', ''));
+    } finally { btn.disabled = false; btn.textContent = 'เปลี่ยนรหัสผ่าน'; }
   };
 
-  // --- Categories Logic ---
   window.setCatFilter = function(type, el) {
     window.currentCatFilter = type;
     el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
@@ -897,7 +813,6 @@
   window.renderCategoriesList = function() {
     let list = categories.slice();
     if (window.currentCatFilter !== 'all') list = list.filter(c => c.type === window.currentCatFilter);
-    
     document.getElementById('categoriesList').innerHTML = list.length ? list.map(c => `
       <div class="cat-item">
         <div style="display:flex;align-items:center;gap:10px">
@@ -944,17 +859,10 @@
     btn.disabled = true;
     try {
       const id = document.getElementById('editCatId').value;
-      const catData = {
-        userId: me.userId,
-        name: document.getElementById('editCatName').value.trim(),
-        type: document.getElementById('editCatType').value,
-        color: document.getElementById('editCatColor').value
-      };
+      const catData = { userId: me.userId, name: document.getElementById('editCatName').value.trim(), type: document.getElementById('editCatType').value, color: document.getElementById('editCatColor').value };
       if (!catData.name) throw new Error("กรุณากรอกชื่อหมวดหมู่");
-
       if (id) await updateDoc(doc(db, "categories", id), catData);
       else await addDoc(collection(db, "categories"), catData);
-      
       window.closeCategoryEditor();
       toast('บันทึกหมวดหมู่สำเร็จ');
       await window.loadData();
@@ -972,7 +880,44 @@
     } catch(e) { toast(e.message); }
   };
 
-  // --- Reports Logic ---
+  // --- ฟังก์ชันสร้าง Chart.js ---
+  function drawExpenseChart() {
+    const ctx = document.getElementById('expenseChart').getContext('2d');
+    if (myExpenseChart) myExpenseChart.destroy(); // ลบกราฟเก่าทิ้งก่อนวาดใหม่
+    
+    // ดึงเฉพาะรายจ่ายมาสรุป
+    const expenses = appData.transactions.filter(t => t.type === 'expense_necessary' || t.type === 'expense_optional');
+    const catTotals = {};
+    expenses.forEach(t => { catTotals[t.category] = (catTotals[t.category] || 0) + t.amount; });
+    
+    const labels = Object.keys(catTotals);
+    const data = Object.values(catTotals);
+    
+    // สีของกราฟ
+    const bgColors = ['#ef5350', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#ec4899', '#f97316', '#14b8a6', '#64748b'];
+
+    if (data.length === 0) {
+      document.getElementById('expenseChart').parentElement.style.display = 'none';
+      return;
+    }
+    
+    document.getElementById('expenseChart').parentElement.style.display = 'block';
+    myExpenseChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [{ data: data, backgroundColor: bgColors.slice(0, data.length), borderWidth: 2, borderColor: '#fff' }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom', labels: { font: { family: 'inherit', size: 12 } } },
+          tooltip: { callbacks: { label: function(c) { return ' ฿' + c.raw.toLocaleString(); } } }
+        }
+      }
+    });
+  }
+
   window.renderReports = function() {
     const s = appData.summary;
     const m = document.getElementById('reportMonth').value;
@@ -993,6 +938,35 @@
         <td style="text-align:right;font-weight:700">${t.type==='income'?'+':'−'}${window.money(t.amount)}</td>
       </tr>
     `).join('') : '<tr><td colspan="4" class="empty">ไม่มีรายการในเดือนนี้</td></tr>';
+    
+    drawExpenseChart(); // เรียกฟังก์ชันวาดกราฟ
+  };
+
+  // --- ฟังก์ชันส่งออก CSV (Excel) ---
+  window.exportCsv = function() {
+    if (appData.transactions.length === 0) {
+      toast('ไม่มีรายการให้ส่งออกในเดือนนี้');
+      return;
+    }
+    // ใส่ BOM (\uFEFF) เพื่อให้ Excel อ่านภาษาไทยได้ถูกต้อง
+    let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+    csvContent += "วันที่,ชื่อรายการ,ประเภท,หมวดหมู่,จำนวนเงิน,หมายเหตุ\n";
+    
+    const txs = appData.transactions.slice().sort((a,b)=>a.date.localeCompare(b.date));
+    txs.forEach(t => {
+      const typeStr = t.type === 'income' ? 'รายรับ' : (t.type === 'saving' ? 'เงินออม' : 'รายจ่าย');
+      // ครอบข้อความด้วย "" เผื่อผู้ใช้พิมพ์เครื่องหมายลูกน้ำในหมายเหตุ
+      const row = `"${t.date}","${t.title}","${typeStr}","${t.category}","${t.amount}","${t.note||''}"`;
+      csvContent += row + "\n";
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `PaoFin_Report_${document.getElementById('reportMonth').value}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   window.exportPdf = function() {
@@ -1010,23 +984,19 @@
         table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
         th, td { border-bottom: 1px solid #e5eaf1; padding: 10px 5px; text-align: left; }
         th { background: #f8fafc; }
+        canvas { max-width: 300px; margin: 20px auto; display: block; }
       </style>
       </head><body>${content}
-      <script>window.onload = function() { window.print(); window.close(); }<\/script>
+      <script>window.onload = function() { setTimeout(()=>{window.print(); window.close();}, 500) }<\/script>
       </body></html>
     `);
     printWindow.document.close();
   };
 
-  // --- Pull to Refresh ---
   let ptrStartY = 0, ptrDist = 0, isPTRActive = false, isRefreshing = false;
   window.addEventListener('touchstart', (e) => {
-    if (window.scrollY <= 0 && !isRefreshing && me && !document.getElementById('app').classList.contains('hidden')) {
-      ptrStartY = e.touches[0].pageY;
-      isPTRActive = true;
-    } else { isPTRActive = false; }
+    if (window.scrollY <= 0 && !isRefreshing && me && !document.getElementById('app').classList.contains('hidden')) { ptrStartY = e.touches[0].pageY; isPTRActive = true; } else { isPTRActive = false; }
   }, { passive: true });
-
   window.addEventListener('touchmove', (e) => {
     if (!isPTRActive || isRefreshing) return;
     ptrDist = e.touches[0].pageY - ptrStartY;
@@ -1034,16 +1004,10 @@
       const move = Math.min(ptrDist * 0.4, 65);
       const el = document.getElementById('ptr');
       el.style.transform = `translateY(${move - 52}px)`;
-      if (move >= 45) {
-        document.getElementById('ptrText').textContent = 'ปล่อยนิ้วเพื่อรีเฟรช';
-        document.getElementById('ptrIcon').style.transform = 'rotate(180deg)';
-      } else {
-        document.getElementById('ptrText').textContent = 'ดึงลงเพื่อรีเฟรช';
-        document.getElementById('ptrIcon').style.transform = 'rotate(0deg)';
-      }
+      if (move >= 45) { document.getElementById('ptrText').textContent = 'ปล่อยนิ้วเพื่อรีเฟรช'; document.getElementById('ptrIcon').style.transform = 'rotate(180deg)'; } 
+      else { document.getElementById('ptrText').textContent = 'ดึงลงเพื่อรีเฟรช'; document.getElementById('ptrIcon').style.transform = 'rotate(0deg)'; }
     }
   }, { passive: true });
-
   window.addEventListener('touchend', async () => {
     if (!isPTRActive || isRefreshing) return;
     isPTRActive = false;
@@ -1051,25 +1015,12 @@
     const move = Math.min(ptrDist * 0.4, 65);
     ptrDist = 0;
     if (move >= 45) {
-      isRefreshing = true;
-      el.style.transform = 'translateY(10px)';
-      document.getElementById('ptrText').textContent = 'กำลังซิงค์ข้อมูล...';
-      document.getElementById('ptrIcon').classList.add('spin');
-      try {
-        if (window.navigator && window.navigator.vibrate) window.navigator.vibrate(20);
-        await window.loadData();
-        toast('รีเฟรชข้อมูลเรียบร้อยแล้ว');
-      } catch(e) { } finally {
-        setTimeout(() => {
-          el.style.transform = 'translateY(-60px)';
-          document.getElementById('ptrIcon').classList.remove('spin');
-          document.getElementById('ptrIcon').style.transform = 'rotate(0deg)';
-          isRefreshing = false;
-        }, 300);
-      }
+      isRefreshing = true; el.style.transform = 'translateY(10px)';
+      document.getElementById('ptrText').textContent = 'กำลังซิงค์ข้อมูล...'; document.getElementById('ptrIcon').classList.add('spin');
+      try { if (window.navigator && window.navigator.vibrate) window.navigator.vibrate(20); await window.loadData(); toast('รีเฟรชข้อมูลเรียบร้อยแล้ว'); } catch(e) { } 
+      finally { setTimeout(() => { el.style.transform = 'translateY(-60px)'; document.getElementById('ptrIcon').classList.remove('spin'); document.getElementById('ptrIcon').style.transform = 'rotate(0deg)'; isRefreshing = false; }, 300); }
     } else { el.style.transform = 'translateY(-60px)'; }
   });
-
 </script>
 </body>
 </html>

@@ -2,16 +2,23 @@
 <html lang="th">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f4f8ff">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#f6faff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>PaoFin</title>
+  
+  <!-- PWA Manifest และ Icon -->
+  <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  
   <!-- นำเข้า Chart.js สำหรับสร้างกราฟ -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root{--ink:#172b4d;--muted:#71809a;--line:#e4ebf5;--green:#10b981;--red:#ef5350;--purple:#8b5cf6;--amber:#f59e0b;--blue:#2563eb;--bg:#f6faff}
     *{box-sizing:border-box}
-    body{margin:0;background:linear-gradient(150deg,#f6faff,#eef7ff);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,sans-serif;color:var(--ink);padding:env(safe-area-inset-top) 14px calc(84px + env(safe-area-inset-bottom));overscroll-behavior-y:contain}
+    body{margin:0;background:linear-gradient(150deg,#f6faff,#eef7ff);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,sans-serif;color:var(--ink);padding:env(safe-area-inset-top) 14px calc(84px + env(safe-area-inset-bottom));overscroll-behavior-y:contain; -webkit-tap-highlight-color: transparent;}
     button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}button:disabled{opacity:0.6;cursor:not-allowed}
     .wrap{max-width:980px;margin:auto}
     .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 2px}
@@ -79,11 +86,11 @@
     .toast{position:fixed;z-index:50;bottom:100px;left:50%;transform:translateX(-50%);background:#172b4d;color:white;padding:12px 18px;border-radius:12px;max-width:90%;font-size:13px;box-shadow:0 5px 25px #0002}
     .empty{text-align:center;padding:28px 10px;color:var(--muted)}
     .chartbar{height:9px;border-radius:99px;background:#eef2f8;overflow:hidden;margin-top:7px}
-    .chartbar span{display:block;height:100%;border-radius:99px}
+    .chartbar span{display:block;height:100%;border-radius:99px;transition: width 0.4s ease;}
     
     .cat-item{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:14px;background:#fff;border:1px solid var(--line);margin-bottom:8px}
     .cat-badge{display:inline-block;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:600}
-    .filter-chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:10px}
+    .filter-chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:10px; -webkit-overflow-scrolling: touch;}
     .chip{border-radius:99px;padding:6px 12px;font-size:12px;font-weight:700;background:#fff;border:1px solid var(--line);white-space:nowrap;color:var(--muted)}
     .chip.active{background:var(--blue);color:#fff;border-color:var(--blue)}
     
@@ -109,10 +116,10 @@
     <div class="auth-info">
       <h1 style="font-size:28px; font-weight:800; margin:0 0 8px 0;">มั่นใจทุกการใช้งาน</h1>
       <p style="color:var(--muted); font-size:15px; margin-bottom: 30px;">ข้อมูลส่วนตัวและการเงินของคุณ ปลอดภัยสูงสุดบนระบบของเรา</p>
-      <div class="sec-item"><div class="sec-icon">🔒</div><div class="sec-text"><h3>ความปลอดภัยระดับสากล</h3><p>จัดเก็บด้วยเทคโนโลยี Cloud จาก Google พร้อมการเข้ารหัสข้อมูล (Encryption) มาตรฐานสูงสุด</p></div></div>
-      <div class="sec-item"><div class="sec-icon">🛡️</div><div class="sec-text"><h3>ความเป็นส่วนตัว 100%</h3><p>ระบบแยกฐานข้อมูลรายบุคคลอย่างเด็ดขาด (Row Level Security) ข้อมูลเป็นความลับของคุณเพียงคนเดียว</p></div></div>
+      <div class="sec-item"><div class="sec-icon">🔒</div><div class="sec-text"><h3>ความปลอดภัยระดับสากล</h3><p>จัดเก็บด้วยเทคโนโลยี Cloud จาก Google พร้อมการเข้ารหัสข้อมูลมาตรฐานสูงสุด</p></div></div>
+      <div class="sec-item"><div class="sec-icon">🛡️</div><div class="sec-text"><h3>ความเป็นส่วนตัว 100%</h3><p>ระบบแยกฐานข้อมูลรายบุคคลอย่างเด็ดขาด ข้อมูลเป็นความลับของคุณเพียงคนเดียว</p></div></div>
       <div class="sec-item"><div class="sec-icon">☁️</div><div class="sec-text"><h3>ข้อมูลปลอดภัย ไม่สูญหาย</h3><p>ซิงค์ข้อมูลแบบเรียลไทม์ ป้องกันข้อมูลหายแม้เปลี่ยนอุปกรณ์ และเข้าใช้งานต่อเนื่องได้จากทุกที่</p></div></div>
-      <div class="sec-item"><div class="sec-icon">🙈</div><div class="sec-text"><h3>โหมดซ่อนตัวเลขส่วนตัว</h3><p>เพิ่มความสบายใจเมื่อใช้งานในที่สาธารณะ ด้วยปุ่มซ่อนตัวเลขยอดเงิน ป้องกันการถูกแอบมอง</p></div></div>
+      <div class="sec-item"><div class="sec-icon">📱</div><div class="sec-text"><h3>ทำงานเสมือนแอปแท้</h3><p>ติดตั้งเป็นแอปพลิเคชัน (PWA) ลงบนหน้าจอมือถือของคุณได้ทันที ไม่ต้องผ่าน App Store</p></div></div>
     </div>
     <div class="panel auth-panel">
       <img src="logo.png" alt="PaoFin" style="height: 120px; margin: 0 auto 10px; display: block;">
@@ -167,6 +174,14 @@
         <div class="stat"><div class="muted">รายจ่าย</div><div class="num red" id="statExpense">฿0</div></div>
         <div class="stat"><div class="muted">เงินออม</div><div class="num purple" id="statSaving">฿0</div></div>
         <div class="stat"><div class="muted">รายจ่ายจำเป็น</div><div class="num orange" id="statNecessary">฿0</div></div>
+      </div>
+
+      <!-- ส่วนแจ้งเตือนงบประมาณ (Budget Limits) -->
+      <div class="panel hidden" id="budgetSection" style="margin-top:14px; background:#fffbf0; border-color:#fef3c7;">
+        <div class="section-title">
+          <span>📊 ติดตามงบประมาณ (Budget)</span>
+        </div>
+        <div id="budgetBars"></div>
       </div>
 
       <div class="panel" style="margin-top:14px">
@@ -305,7 +320,7 @@
           <span>หมวดหมู่ของคุณ</span>
           <button class="primary" onclick="window.openCategoryEditor()" style="padding:8px 12px;font-size:12px">＋ เพิ่มหมวดหมู่</button>
         </div>
-        <div class="muted" style="margin-bottom:12px">คุณสามารถ เพิ่ม, แก้ไข หรือ ลบ หมวดหมู่ของตัวเองได้อย่างอิสระ</div>
+        <div class="muted" style="margin-bottom:12px">คุณสามารถ เพิ่ม, แก้ไข ลบ และ <strong style="color:var(--amber)">ตั้งเป้าจำกัดงบประมาณรายเดือน</strong> ได้อย่างอิสระ</div>
         <div class="filter-chips">
           <button class="chip active" onclick="window.setCatFilter('all', this)">ทั้งหมด</button>
           <button class="chip" onclick="window.setCatFilter('income', this)">รายรับ</button>
@@ -379,6 +394,8 @@
       <option value="expense_optional">รายจ่ายไม่จำเป็น</option>
       <option value="saving">เงินออม</option>
     </select>
+    <label>จำกัดงบประมาณรายเดือน (บาท)</label>
+    <input class="field" id="editCatBudget" type="number" min="0" placeholder="ปล่อยว่างหากไม่ต้องการจำกัดงบ">
     <label>สีประจำหมวดหมู่</label>
     <input class="field" id="editCatColor" type="color" value="#2563eb" style="height:48px;padding:4px">
     <div class="actions">
@@ -414,29 +431,30 @@
   let me = null;
   let appData = { transactions: [], summary: {} };
   let categories = [];
-  let myExpenseChart = null; // ตัวแปรเก็บ Instance ของ Chart
+  let myExpenseChart = null; 
   
   window.currentTab = 'home';
   window.currentTxFilter = 'all';
   window.currentCatFilter = 'all';
   let isHideMoney = localStorage.getItem('myfinance_hide_money') === 'true';
 
+  // ข้อมูลหมวดหมู่เริ่มต้น (รองรับ Budget)
   const DEFAULT_CATEGORIES = [
-    {categoryId: 'd1', userId: '*', name: 'เงินเดือน', type: 'income', color: '#16a34a', isDefault: true},
-    {categoryId: 'd2', userId: '*', name: 'รายได้เสริม', type: 'income', color: '#16a34a', isDefault: true},
-    {categoryId: 'd3', userId: '*', name: 'รายรับอื่น ๆ', type: 'income', color: '#16a34a', isDefault: true},
-    {categoryId: 'd4', userId: '*', name: 'ค่าบ้าน/ค่าเช่า', type: 'expense_necessary', color: '#ef4444', isDefault: true},
-    {categoryId: 'd5', userId: '*', name: 'ค่างวดรถ', type: 'expense_necessary', color: '#ef4444', isDefault: true},
-    {categoryId: 'd6', userId: '*', name: 'ค่าน้ำ/ค่าไฟ', type: 'expense_necessary', color: '#ef4444', isDefault: true},
-    {categoryId: 'd7', userId: '*', name: 'ค่าส่วนกลาง', type: 'expense_necessary', color: '#ef4444', isDefault: true},
-    {categoryId: 'd8', userId: '*', name: 'ประกัน/สุขภาพ', type: 'expense_necessary', color: '#ef4444', isDefault: true},
-    {categoryId: 'd9', userId: '*', name: 'อาหาร', type: 'expense_optional', color: '#f59e0b', isDefault: true},
-    {categoryId: 'd10', userId: '*', name: 'ของใช้ส่วนตัว', type: 'expense_optional', color: '#f59e0b', isDefault: true},
-    {categoryId: 'd11', userId: '*', name: 'ช้อปปิ้ง', type: 'expense_optional', color: '#f59e0b', isDefault: true},
-    {categoryId: 'd12', userId: '*', name: 'ความบันเทิง', type: 'expense_optional', color: '#f59e0b', isDefault: true},
-    {categoryId: 'd13', userId: '*', name: 'อื่น ๆ', type: 'expense_optional', color: '#f59e0b', isDefault: true},
-    {categoryId: 'd14', userId: '*', name: 'เงินออม', type: 'saving', color: '#8b5cf6', isDefault: true},
-    {categoryId: 'd15', userId: '*', name: 'เงินสำรองฉุกเฉิน', type: 'saving', color: '#8b5cf6', isDefault: true}
+    {categoryId: 'd1', userId: '*', name: 'เงินเดือน', type: 'income', color: '#16a34a', isDefault: true, budgetLimit: 0},
+    {categoryId: 'd2', userId: '*', name: 'รายได้เสริม', type: 'income', color: '#16a34a', isDefault: true, budgetLimit: 0},
+    {categoryId: 'd3', userId: '*', name: 'รายรับอื่น ๆ', type: 'income', color: '#16a34a', isDefault: true, budgetLimit: 0},
+    {categoryId: 'd4', userId: '*', name: 'ค่าบ้าน/ค่าเช่า', type: 'expense_necessary', color: '#ef4444', isDefault: true, budgetLimit: 0},
+    {categoryId: 'd5', userId: '*', name: 'ค่างวดรถ', type: 'expense_necessary', color: '#ef4444', isDefault: true, budgetLimit: 0},
+    {categoryId: 'd6', userId: '*', name: 'ค่าน้ำ/ค่าไฟ', type: 'expense_necessary', color: '#ef4444', isDefault: true, budgetLimit: 0},
+    {categoryId: 'd7', userId: '*', name: 'ค่าส่วนกลาง', type: 'expense_necessary', color: '#ef4444', isDefault: true, budgetLimit: 0},
+    {categoryId: 'd8', userId: '*', name: 'ประกัน/สุขภาพ', type: 'expense_necessary', color: '#ef4444', isDefault: true, budgetLimit: 0},
+    {categoryId: 'd9', userId: '*', name: 'อาหาร', type: 'expense_optional', color: '#f59e0b', isDefault: true, budgetLimit: 0},
+    {categoryId: 'd10', userId: '*', name: 'ของใช้ส่วนตัว', type: 'expense_optional', color: '#f59e0b', isDefault: true, budgetLimit: 0},
+    {categoryId: 'd11', userId: '*', name: 'ช้อปปิ้ง', type: 'expense_optional', color: '#f59e0b', isDefault: true, budgetLimit: 0},
+    {categoryId: 'd12', userId: '*', name: 'ความบันเทิง', type: 'expense_optional', color: '#f59e0b', isDefault: true, budgetLimit: 0},
+    {categoryId: 'd13', userId: '*', name: 'อื่น ๆ', type: 'expense_optional', color: '#f59e0b', isDefault: true, budgetLimit: 0},
+    {categoryId: 'd14', userId: '*', name: 'เงินออม', type: 'saving', color: '#8b5cf6', isDefault: true, budgetLimit: 0},
+    {categoryId: 'd15', userId: '*', name: 'เงินสำรองฉุกเฉิน', type: 'saving', color: '#8b5cf6', isDefault: true, budgetLimit: 0}
   ];
 
   function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.remove('hidden');setTimeout(()=>el.classList.add('hidden'),3500)}
@@ -551,7 +569,7 @@
       const catRef = collection(db, "categories");
       const qCat = query(catRef, where("userId", "==", me.userId));
       const catSnap = await getDocs(qCat);
-      const userCats = catSnap.docs.map(d => ({categoryId: d.id, isDefault: false, ...d.data()}));
+      const userCats = catSnap.docs.map(d => ({categoryId: d.id, isDefault: false, budgetLimit: 0, ...d.data()}));
       categories = [...DEFAULT_CATEGORIES, ...userCats];
 
       const txRef = collection(db, "transactions");
@@ -611,6 +629,37 @@
     document.getElementById('savingPct').textContent = Math.round(s.saving/base*100) + '% ของรายรับ';
     document.getElementById('optionalPct').textContent = Math.round(s.optional/base*100) + '% ของรายรับ';
     
+    // --- โค้ดแสดงแถบจำกัดงบประมาณ ---
+    let budgetHtml = '';
+    categories.forEach(c => {
+      if (c.budgetLimit > 0) {
+        // คำนวณยอดใช้จ่ายรวมของหมวดหมู่นี้ในเดือนปัจจุบัน
+        const spent = appData.transactions.filter(t => t.category === c.name).reduce((sum, t) => sum + t.amount, 0);
+        const pct = Math.min(100, (spent / c.budgetLimit) * 100);
+        
+        // กำหนดสี: <75% เขียว, 75-90% ส้ม, >90% แดง
+        const barColor = pct >= 90 ? '#ef5350' : pct >= 75 ? '#f59e0b' : '#10b981';
+        
+        budgetHtml += `
+          <div style="margin:16px 0 8px;">
+            <div style="display:flex;justify-content:space-between;gap:10px;font-size:13px;margin-bottom:6px;">
+              <span>${esc(c.name)}</span>
+              <b>${window.money(spent)} / ${window.money(c.budgetLimit)}</b>
+            </div>
+            <div class="chartbar" style="background:#e2e8f0; height:12px;"><span style="width:${pct}%;background:${barColor}"></span></div>
+            ${pct >= 90 ? `<div style="font-size:11px;color:#ef5350;margin-top:4px;font-weight:bold;">⚠️ ใช้จ่ายใกล้ถึงงบที่ตั้งไว้!</div>` : ''}
+          </div>
+        `;
+      }
+    });
+
+    if (budgetHtml) {
+      document.getElementById('budgetSection').classList.remove('hidden');
+      document.getElementById('budgetBars').innerHTML = budgetHtml;
+    } else {
+      document.getElementById('budgetSection').classList.add('hidden');
+    }
+
     const groups = [['รายจ่ายจำเป็น',s.necessary,'#ef5350'],['รายจ่ายไม่จำเป็น',s.optional,'#f59e0b'],['เงินออม',s.saving,'#8b5cf6']];
     const max = Math.max(...groups.map(g=>g[1]), 1);
     document.getElementById('breakdown').innerHTML = groups.map(g=>`<div style="margin:12px 0"><div style="display:flex;justify-content:space-between;gap:10px;font-size:13px"><span>${g[0]}</span><b>${window.money(g[1])}</b></div><div class="chartbar"><span style="width:${Math.min(100,g[1]/max*100)}%;background:${g[2]}"></span></div></div>`).join('');
@@ -822,11 +871,12 @@
             <div style="margin-top:3px">
               <span class="cat-badge" style="background:#f1f5f9;color:#475569">${({income:'รายรับ',expense_necessary:'รายจ่ายจำเป็น',expense_optional:'รายจ่ายไม่จำเป็น',saving:'เงินออม'})[c.type]||c.type}</span>
               ${c.isDefault ? '<span class="cat-badge" style="background:#f8fafc;color:#94a3b8">เริ่มต้น</span>' : '<span class="cat-badge" style="background:#e0f2fe;color:#0369a1">กำหนดเอง</span>'}
+              ${c.budgetLimit > 0 ? `<span class="cat-badge" style="background:#fffbf0;color:#d97706;border:1px solid #fde68a;">งบ: ฿${c.budgetLimit}</span>` : ''}
             </div>
           </div>
         </div>
         <div>
-          ${!c.isDefault ? `<button class="secondary" style="padding:4px 8px;font-size:11px" onclick="window.editCategory('${c.categoryId}')">แก้ไข</button>` : '<span class="muted" style="font-size:12px;margin-right:6px">หมวดหมู่ระบบ</span>'}
+          <button class="secondary" style="padding:4px 8px;font-size:11px" onclick="window.editCategory('${c.categoryId}')">แก้ไข</button>
         </div>
       </div>
     `).join('') : '<div class="empty">ไม่มีหมวดหมู่ในประเภทนี้</div>';
@@ -836,6 +886,7 @@
     document.getElementById('catEditorTitle').textContent = 'เพิ่มหมวดหมู่ใหม่';
     document.getElementById('editCatId').value = '';
     document.getElementById('editCatName').value = '';
+    document.getElementById('editCatBudget').value = '';
     document.getElementById('deleteCatBtn').classList.add('hidden');
     document.getElementById('categoryModal').classList.add('show');
   };
@@ -844,13 +895,21 @@
 
   window.editCategory = function(id) {
     const c = categories.find(x => x.categoryId === id);
-    if (!c || c.isDefault) return;
+    if (!c) return;
     document.getElementById('catEditorTitle').textContent = 'แก้ไขหมวดหมู่';
     document.getElementById('editCatId').value = c.categoryId;
     document.getElementById('editCatName').value = c.name;
     document.getElementById('editCatType').value = c.type;
     document.getElementById('editCatColor').value = c.color;
-    document.getElementById('deleteCatBtn').classList.remove('hidden');
+    document.getElementById('editCatBudget').value = c.budgetLimit > 0 ? c.budgetLimit : '';
+    
+    // ป้องกันการลบหมวดหมู่ Default
+    if (c.isDefault) {
+      document.getElementById('deleteCatBtn').classList.add('hidden');
+    } else {
+      document.getElementById('deleteCatBtn').classList.remove('hidden');
+    }
+    
     document.getElementById('categoryModal').classList.add('show');
   };
 
@@ -859,10 +918,28 @@
     btn.disabled = true;
     try {
       const id = document.getElementById('editCatId').value;
-      const catData = { userId: me.userId, name: document.getElementById('editCatName').value.trim(), type: document.getElementById('editCatType').value, color: document.getElementById('editCatColor').value };
+      const catData = { 
+        userId: me.userId, 
+        name: document.getElementById('editCatName').value.trim(), 
+        type: document.getElementById('editCatType').value, 
+        color: document.getElementById('editCatColor').value,
+        budgetLimit: Number(document.getElementById('editCatBudget').value) || 0
+      };
+      
       if (!catData.name) throw new Error("กรุณากรอกชื่อหมวดหมู่");
-      if (id) await updateDoc(doc(db, "categories", id), catData);
-      else await addDoc(collection(db, "categories"), catData);
+      
+      if (id) {
+        const existingCat = categories.find(x => x.categoryId === id);
+        // ถ้าเป็นหมวดหมู่ Default อนุญาตให้อัปเดตแค่ค่า budgetLimit
+        if (existingCat && existingCat.isDefault) {
+          await updateDoc(doc(db, "categories", id), { budgetLimit: catData.budgetLimit });
+        } else {
+          await updateDoc(doc(db, "categories", id), catData);
+        }
+      } else {
+        await addDoc(collection(db, "categories"), catData);
+      }
+      
       window.closeCategoryEditor();
       toast('บันทึกหมวดหมู่สำเร็จ');
       await window.loadData();
@@ -883,18 +960,21 @@
   // --- ฟังก์ชันสร้าง Chart.js ---
   function drawExpenseChart() {
     const ctx = document.getElementById('expenseChart').getContext('2d');
-    if (myExpenseChart) myExpenseChart.destroy(); // ลบกราฟเก่าทิ้งก่อนวาดใหม่
+    if (myExpenseChart) myExpenseChart.destroy(); 
     
-    // ดึงเฉพาะรายจ่ายมาสรุป
-    const expenses = appData.transactions.filter(t => t.type === 'expense_necessary' || t.type === 'expense_optional');
+    // แก้ไข: ดึงเฉพาะรายจ่าย (จำเป็น/ไม่จำเป็น) และ "เงินออม" (saving) มาแสดงในกราฟ
+    const expenses = appData.transactions.filter(t => t.type === 'expense_necessary' || t.type === 'expense_optional' || t.type === 'saving');
     const catTotals = {};
     expenses.forEach(t => { catTotals[t.category] = (catTotals[t.category] || 0) + t.amount; });
     
     const labels = Object.keys(catTotals);
     const data = Object.values(catTotals);
     
-    // สีของกราฟ
-    const bgColors = ['#ef5350', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#ec4899', '#f97316', '#14b8a6', '#64748b'];
+    // สีของกราฟ (อิงจากหมวดหมู่ถ้ามี หรือสุ่มสี)
+    const bgColors = labels.map(label => {
+      const found = categories.find(c => c.name === label);
+      return found ? found.color : '#cbd5e1';
+    });
 
     if (data.length === 0) {
       document.getElementById('expenseChart').parentElement.style.display = 'none';
@@ -906,7 +986,7 @@
       type: 'doughnut',
       data: {
         labels: labels,
-        datasets: [{ data: data, backgroundColor: bgColors.slice(0, data.length), borderWidth: 2, borderColor: '#fff' }]
+        datasets: [{ data: data, backgroundColor: bgColors, borderWidth: 2, borderColor: '#fff' }]
       },
       options: {
         responsive: true,
@@ -939,34 +1019,24 @@
       </tr>
     `).join('') : '<tr><td colspan="4" class="empty">ไม่มีรายการในเดือนนี้</td></tr>';
     
-    drawExpenseChart(); // เรียกฟังก์ชันวาดกราฟ
+    drawExpenseChart();
   };
 
-  // --- ฟังก์ชันส่งออก CSV (Excel) ---
   window.exportCsv = function() {
-    if (appData.transactions.length === 0) {
-      toast('ไม่มีรายการให้ส่งออกในเดือนนี้');
-      return;
-    }
-    // ใส่ BOM (\uFEFF) เพื่อให้ Excel อ่านภาษาไทยได้ถูกต้อง
+    if (appData.transactions.length === 0) { toast('ไม่มีรายการให้ส่งออกในเดือนนี้'); return; }
     let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
     csvContent += "วันที่,ชื่อรายการ,ประเภท,หมวดหมู่,จำนวนเงิน,หมายเหตุ\n";
-    
     const txs = appData.transactions.slice().sort((a,b)=>a.date.localeCompare(b.date));
     txs.forEach(t => {
       const typeStr = t.type === 'income' ? 'รายรับ' : (t.type === 'saving' ? 'เงินออม' : 'รายจ่าย');
-      // ครอบข้อความด้วย "" เผื่อผู้ใช้พิมพ์เครื่องหมายลูกน้ำในหมายเหตุ
       const row = `"${t.date}","${t.title}","${typeStr}","${t.category}","${t.amount}","${t.note||''}"`;
       csvContent += row + "\n";
     });
-
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
     link.setAttribute("download", `PaoFin_Report_${document.getElementById('reportMonth').value}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    document.body.appendChild(link); link.click(); document.body.removeChild(link);
   };
 
   window.exportPdf = function() {
@@ -1021,6 +1091,16 @@
       finally { setTimeout(() => { el.style.transform = 'translateY(-60px)'; document.getElementById('ptrIcon').classList.remove('spin'); document.getElementById('ptrIcon').style.transform = 'rotate(0deg)'; isRefreshing = false; }, 300); }
     } else { el.style.transform = 'translateY(-60px)'; }
   });
+
+  // --- ระบบ PWA Service Worker ---
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('Service Worker Registered'))
+        .catch(err => console.log('Service Worker Failed', err));
+    });
+  }
+
 </script>
 </body>
 </html>
